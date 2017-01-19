@@ -208,7 +208,7 @@
         };
       })), function (project) {
         return project.name.toLowerCase();
-      });
+      }).reverse();
     },
 
     onGetVsoFieldsDone: function (data) {
