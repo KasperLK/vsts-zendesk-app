@@ -28,6 +28,7 @@
       VSO_ZENDESK_LINK_TO_TICKET_ATTACHMENT_PREFIX = "ZendeskLinkTo_Attachment_Ticket_",
       VSO_WI_TYPES_WHITE_LISTS = ["Bug", "Product Backlog Item", "User Story", "Support"],
       //VSO_WI_TYPES_WHITE_LISTS = ["Bug", "Product Backlog Item", "User Story", "Requirement", "Issue"],
+      VSO_AREAS_WHITE_LISTS = ["Project Gotham", "Project Gotham\\Flexvalg 2.5", "Project Gotham\\Free Choice 2.7"],
       VSO_PROJECTS_PAGE_SIZE = 100;
 
   //#endregion
@@ -1079,7 +1080,7 @@
         };
         
         visitArea(rootArea);
-        project.areas = _.sortBy(areas, function(area) { return area.name; } );
+        project.areas = _.sortBy(this.restrictToAllowedAreas(areas), function(area) { return area.name; } );
         
       }.bind(this));
 
@@ -1103,6 +1104,10 @@
 
     restrictToAllowedWorkItems: function (wits) {
       return _.filter(wits, function (wit) { return _.contains(VSO_WI_TYPES_WHITE_LISTS, wit.name); });
+    },
+    
+    restrictToAllowedAreas: function (areas) {
+      return _.filter(areas, function (area) { return _.includes(VSO_AREAS_WHITE_LISTS, area.name); });
     },
 
     buildPatchToAddWorkItemField: function (fieldName, value) {
